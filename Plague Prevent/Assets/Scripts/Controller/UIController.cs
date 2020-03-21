@@ -7,6 +7,7 @@ public class UIController : Controller
     #region fields
     private static UIController _instance;
     [SerializeField] DecisionScreen decisionScreen;
+
     #endregion
 
     #region initilization

@@ -22,8 +22,7 @@ public static class Pathfinder
 		List<Node> openSet = new List<Node>();
 		HashSet<Node> closedSet = new HashSet<Node>();
 		openSet.Add(_startNode);
-
-		while (openSet.Count > 0 || !pathFound)
+		while (openSet.Count > 0 && !pathFound)
 		{
 			Node node = openSet[0];
 			for (int i = 1; i < openSet.Count; i++)

@@ -62,6 +62,7 @@ public class AgentMovement : MonoBehaviour
         if (Vector3.Distance(this.transform.position, _targetNode.transform.position) <= 0.1f)
         {
             _pathIndex += 1;
+            _currentNode = _targetNode;
             _targetNode = _path[_pathIndex];
         }
     }
@@ -75,7 +76,7 @@ public class AgentMovement : MonoBehaviour
     // Speed noch an Agent Speed anpassen
     public void Move()
     {
-        this.transform.position += _movingDirection * 20 * Time.deltaTime;
+        this.transform.parent.position += _movingDirection * 10 * Time.deltaTime;
     }
 
 

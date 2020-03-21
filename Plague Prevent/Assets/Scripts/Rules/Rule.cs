@@ -9,8 +9,10 @@ public class Rule : ScriptableObject
     public string text;
 
     [Header("Values")]
-    public float acceptance = -1;
+    public float minAcceptance = -1;
     public float cost = 1;
+    [Tooltip("How often can the rule be shown?")]
+    public int uses = 1;
 
 
     [Header("Rule Definition")]
@@ -22,4 +24,8 @@ public class Rule : ScriptableObject
 
     [Space]
     public float value = 1;
+
+    [Header("Following Rules")]
+    public Rule[] unlockedRules;
+    
 }

@@ -5,16 +5,23 @@ using UnityEngine;
 
 public class AgentSchedule : MonoBehaviour
 {
-    [SerializeField] AgentScheduleElement[] schedule;
+    AgentScheduleElement[] schedule;
     [SerializeField] Transform routineContainer;
 
-    Dictionary<AgentActivityType, List<AgentRoutine>> routines;
+    Dictionary<AgentActivityType, List<Location>> routines;
 
     int currentScheduleElementIndex = 0;
-    float remainingScheduleTime;
+    //float remainingScheduleTime;
 
-    AgentRoutine currentRoutine;
+    private float nextDiseaseTick = 24.0f;
+
+    private InfectionStateMachine _infectionStateMachine;
+
+    Location targetLocation;
+    int hourForNextSchedule;
     AgentMovement _agentMovement;
+
+    AgentArchetype archetype;
 
     public Action<Location> OnNewTargetChosen;
 
@@ -24,53 +31,111 @@ public class AgentSchedule : MonoBehaviour
             return schedule[currentScheduleElementIndex];
         }
     }
+    //TODO: Remove this later
+    private void Awake()
+    {
+        _infectionStateMachine = GetComponent<InfectionStateMachine>();
+    }
 
     /// <summary>
     /// Initialize Routines
     /// </summary>
     /// <param name="agent"></param>
-    public void Initialize(Agent agent)
+    public void Initialize(Agent agent, AgentArchetype archetype)
     {
-        AgentRoutine[] allRoutines = GetComponentsInChildren<AgentRoutine>();
+        this.archetype = archetype;
+        //AgentRoutine[] allRoutines = GetComponentsInChildren<AgentRoutine>();
         _agentMovement = GetComponentInChildren<AgentMovement>();
+        //_infectionStateMachine = GetComponent<InfectionStateMachine>();
 
-        routines = new Dictionary<AgentActivityType, List<AgentRoutine>>();
+        // random routines
+        routines = new Dictionary<AgentActivityType, List<Location>>()
+        {
+            { AgentActivityType.HOME, new List<Location>() { agent.Home } },
+            { AgentActivityType.WORK, new List<Location>() { agent.Workplace } },
+            { AgentActivityType.FREETIME, new List<Location>() {
+                LocationController.Instance.GetRandomEntertainment(),
+                LocationController.Instance.GetRandomEntertainment(),
+                LocationController.Instance.GetRandomEntertainment(),
+            } },
+        };
+
+        // archetype
+        schedule = archetype.schedule;
+
+        for (int i = 0; i < schedule.Length; i++)
+        {
+            if (schedule[i].LiesInTimeFrame(StatsController.Instance.currentDateTime.Hour))
+            {
+                currentScheduleElementIndex = i;
+                break;
+            }
+        }
+
+        //Debug.Log($" { archetype } at { StatsController.Instance.currentDateTime.Hour } o'clock: activity = { CurrentScheduleElement.activityType}");
+
+        hourForNextSchedule = CurrentScheduleElement.EndTime;
+
+        #region old
+        //AgentRoutine homeRoutine = routineContainer.gameObject.AddComponent<AgentRoutine>();
+        //homeRoutine.Initialize(AgentActivityType.HOME, agent.Home, 1);
+
+        //AgentRoutine workRoutine = routineContainer.gameObject.AddComponent<AgentRoutine>();
+        //workRoutine.Initialize(AgentActivityType.WORK, agent.Workplace, 1);
+
+        //routines = new Dictionary<AgentActivityType, List<AgentRoutine>>()
+        //{
+        //    { AgentActivityType.HOME, new List<AgentRoutine>() { homeRoutine } },
+
+        //};
 
         // Add general routines
-        foreach (AgentRoutine routine in allRoutines)
-        {
-            if (!routines.ContainsKey(routine.activityType))
-                routines.Add(routine.activityType, new List<AgentRoutine>());
+        //foreach (AgentRoutine routine in allRoutines)
+        //{
+        //    //   if (!routines.ContainsKey(routine.activityType))
+        //    routines.Add(routine.activityType, new List<AgentRoutine>());
 
-            routines[routine.activityType].Add(routine);
-        }
+        //    routines[routine.activityType].Add(routine);
+        //}
 
-        // Create Home Routine if none is defined
-        if (!routines.ContainsKey(AgentActivityType.HOME))
-        {
-            AgentRoutine homeRoutine = routineContainer.gameObject.AddComponent<AgentRoutine>();
-            homeRoutine.Initialize(AgentActivityType.HOME, agent.Home, 1);
-            routines.Add(AgentActivityType.HOME, new List<AgentRoutine>() { homeRoutine });
-        }
 
-        // Create Work Routine if none is defined
-        if (!routines.ContainsKey(AgentActivityType.WORK))
-        {
-            AgentRoutine workRoutine = routineContainer.gameObject.AddComponent<AgentRoutine>();
-            workRoutine.Initialize(AgentActivityType.WORK, agent.Workplace, 1);
-            routines.Add(AgentActivityType.WORK, new List<AgentRoutine>() { workRoutine });
-        }
+        //// Create Home Routine if none is defined
+        //if (!routines.ContainsKey(AgentActivityType.HOME))
+        //{
+        //    AgentRoutine homeRoutine = routineContainer.gameObject.AddComponent<AgentRoutine>();
+        //    homeRoutine.Initialize(AgentActivityType.HOME, agent.Home, 1);
+        //    routines.Add(AgentActivityType.HOME, new List<AgentRoutine>() { homeRoutine });
+        //}
 
-        remainingScheduleTime = CurrentScheduleElement.Duration;
+        //// Create Work Routine if none is defined
+        //if (!routines.ContainsKey(AgentActivityType.WORK))
+        //{
+        //    AgentRoutine workRoutine = routineContainer.gameObject.AddComponent<AgentRoutine>();
+        //    workRoutine.Initialize(AgentActivityType.WORK, agent.Workplace, 1);
+        //    routines.Add(AgentActivityType.WORK, new List<AgentRoutine>() { workRoutine });
+        //}
+        #endregion
+
         DecideRoutine();
     }
 
     private void Update()
     {
-        remainingScheduleTime -= Time.deltaTime * StatsController.Instance.hoursPerSecond;
+        //remainingScheduleTime -= Time.deltaTime * StatsController.Instance.hoursPerSecond;
+        nextDiseaseTick -= Time.deltaTime * StatsController.Instance.hoursPerSecond;
 
-        if (remainingScheduleTime <= 0)
+        if (nextDiseaseTick <= 0)
+        {
+            nextDiseaseTick = 24.0f;
+            _infectionStateMachine.OnTimeStep();
+
+        }
+
+        if (!CurrentScheduleElement.LiesInTimeFrame(StatsController.Instance.currentDateTime.Hour))
             NextSchedule();
+            
+        //if (remainingScheduleTime <= 0)
+
     }
 
     /// <summary>
@@ -79,7 +144,12 @@ public class AgentSchedule : MonoBehaviour
     void NextSchedule()
     {
         currentScheduleElementIndex = (currentScheduleElementIndex + 1) % schedule.Length;
-        remainingScheduleTime += CurrentScheduleElement.Duration;
+
+        hourForNextSchedule = CurrentScheduleElement.EndTime;
+
+        //Debug.Log($" { archetype } at { StatsController.Instance.currentDateTime.Hour } o'clock: activity = { CurrentScheduleElement.activityType}");
+
+        //remainingScheduleTime += CurrentScheduleElement.Duration;
         DecideRoutine();
     }
 
@@ -88,18 +158,16 @@ public class AgentSchedule : MonoBehaviour
     /// </summary>
     void DecideRoutine()
     {
-        currentRoutine = routines[CurrentScheduleElement.activityType]
+        targetLocation = routines[CurrentScheduleElement.activityType]
             [UnityEngine.Random.Range(0, routines[CurrentScheduleElement.activityType].Count)];
 
-        OnNewTargetChosen?.Invoke(currentRoutine.targetLocation);
-        _agentMovement.SetPath(currentRoutine.targetLocation.Node);
-
-
+        OnNewTargetChosen?.Invoke(targetLocation);
+        _agentMovement.SetPath(targetLocation.Node);
     }
 }
 
 [System.Serializable]
-class AgentScheduleElement
+public class AgentScheduleElement
 {
     public AgentActivityType activityType;
     public Vector2 time;
@@ -109,6 +177,24 @@ class AgentScheduleElement
         get {
             return time.y - time.x;
         }
+    }
+
+    public int EndTime
+    {
+        get {
+            return Mathf.RoundToInt(time.y);
+        }
+    }
+
+    public bool LiesInTimeFrame(int hour)
+    {
+        // night activity
+        if (time.y < time.x)
+        {
+            return (hour < time.y || hour > time.x);
+        }
+
+        return (hour >= time.x && hour <= time.y);
     }
 }
 

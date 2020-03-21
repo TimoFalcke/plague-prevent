@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3423473217186304277}
   - component: {fileID: 6871069148475495577}
+  - component: {fileID: 4436033330543876199}
   m_Layer: 0
   m_Name: AgentCollider
   m_TagString: Untagged
@@ -47,6 +48,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.64
+--- !u!114 &4436033330543876199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1463962103964895981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac1f04fd02a30b94ab887a26a926e912, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3594642804762722802
 GameObject:
   m_ObjectHideFlags: 0
@@ -173,15 +186,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60308941bff548a4192a265b89f51ca6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  schedule:
-  - activityType: 0
-    time: {x: 0, y: 8}
-  - activityType: 1
-    time: {x: 8, y: 17}
-  - activityType: 2
-    time: {x: 17, y: 22}
-  - activityType: 0
-    time: {x: 22, y: 24}
   routineContainer: {fileID: 395807515001218940}
 --- !u!114 &3183299026394218313
 MonoBehaviour:
@@ -195,7 +199,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9c122c12975f4c4d9ddd3df03ec08fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Agent: {fileID: 0}
+  healthy: {fileID: 21300000, guid: 76410df4de107cc4bad776640565f555, type: 3}
+  carrier: {fileID: 21300000, guid: 4bd85ee27201a3f4ca1e3ffc2b1dc1e0, type: 3}
+  infected: {fileID: 21300000, guid: 09d7e81f383bc4f438bd032830d6252d, type: 3}
+  severe: {fileID: 21300000, guid: c5904a972e95b6e46afadd3bab4ae8a5, type: 3}
+  immune: {fileID: 21300000, guid: 38a5e4099dd867b4b9dfaa8ff50c98ef, type: 3}
   SeverityRate: 0.2
   DeathRate: 0.05
 --- !u!1 &5187501888771891258
@@ -268,7 +276,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 37f878c045267114e9a266d3ed74f5bc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 76410df4de107cc4bad776640565f555, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -297,7 +305,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &395807515001218940
 Transform:
   m_ObjectHideFlags: 0

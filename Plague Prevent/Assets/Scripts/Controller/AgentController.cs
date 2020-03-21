@@ -14,12 +14,28 @@ public class AgentController : Controller
     float _minSpeed;
     [SerializeField]
     float _maxSpeed;
+
+    [SerializeField]
+    GameObject _agentPrefab;
+    [SerializeField]
+    GameObject _agentContainer;
+    [SerializeField]
+    AgentArchetype[] archetypes;
+
+    List<AgentArchetype> possibleArchetypes;
     #endregion
 
     #region initilization
     private void Awake()
     {
         GetInstance();
+
+        possibleArchetypes = new List<AgentArchetype>();
+        foreach (AgentArchetype archetype in archetypes)
+        {
+            for (int i = 0; i < archetype.frequency; i++)
+                possibleArchetypes.Add(archetype);
+        }
     }
     #endregion
 
@@ -39,6 +55,13 @@ public class AgentController : Controller
         // needs to be implemented
         return null;
     }
+
+    public AgentArchetype GetArchetype()
+    {
+
+        return possibleArchetypes[Random.Range(0, possibleArchetypes.Count)];
+    }
+
     #endregion
 
     #region properties
@@ -47,5 +70,7 @@ public class AgentController : Controller
     public int MaxAge { get => _maxAge;  }
     public float MinSpeed { get => _minSpeed; }
     public float MaxSpeed { get => _maxSpeed;}
+    public GameObject AgentPrefab { get => _agentPrefab; }
+    public GameObject AgentContainer { get => _agentContainer; }
     #endregion
 }

@@ -1,5 +1,55 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &412111811997738979
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3064245957325449214}
+  - component: {fileID: 8327315738626995604}
+  m_Layer: 0
+  m_Name: RuleManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3064245957325449214
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 412111811997738979}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4727949105844729999}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8327315738626995604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 412111811997738979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c66787569e6f6f4c81f5944668fa873, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rulesToChoseFrom: 3
+  ruleInterval: 20
+  allRules:
+  - {fileID: 11400000, guid: 5060ac6a402276c47a682ea210715e90, type: 2}
+  - {fileID: 11400000, guid: 84f642fabdf40194396f1ec5d96971aa, type: 2}
+  - {fileID: 11400000, guid: b76883d730c6bf4478f678b23940e632, type: 2}
+  - {fileID: 11400000, guid: fb3c9cce1adee4b41917a38cac93bb00, type: 2}
 --- !u!1 &4727949104527189715
 GameObject:
   m_ObjectHideFlags: 0
@@ -43,9 +93,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e400d446a795384386de0da176dcfe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scrollSpeed: 25
+  scrollSpeed: 80
   minDist: 200
-  _camera: {fileID: 0}
 --- !u!1 &4727949105058052815
 GameObject:
   m_ObjectHideFlags: 0
@@ -132,10 +181,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd7a4bc77034c28428fe1b440eaefac2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _minAge: 0
-  _maxAge: 0
-  _minSpeed: 0
-  _maxSpeed: 0
+  _minAge: 18
+  _maxAge: 65
+  _minSpeed: 1
+  _maxSpeed: 10
+  _agentPrefab: {fileID: 4669647450283202574, guid: bb37d288962b58145bbb3966aab90fd4,
+    type: 3}
+  _agentContainer: {fileID: 0}
+  archetypes:
+  - {fileID: 11400000, guid: 430f5b87c74fea94b8d57d4077002866, type: 2}
+  - {fileID: 11400000, guid: 1bdc302db197dc143a8cd9e8a5a1bf8e, type: 2}
+  - {fileID: 11400000, guid: 7eb602c58a658244081457614ee8193c, type: 2}
+  - {fileID: 11400000, guid: 919293465b9d09742ba79077d4cde918, type: 2}
 --- !u!1 &4727949105326329374
 GameObject:
   m_ObjectHideFlags: 0
@@ -179,11 +236,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 863d99c75c8c4c54b8b1c8de27d4ab3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoursPerSecond: 1
+  hoursPerSecond: 0.5
   infectedCount: 0
   deathCount: 0
+  infectionProbability: 1
   population: 0
   approval: 0
+  currency: 0
 --- !u!1 &4727949105486142008
 GameObject:
   m_ObjectHideFlags: 0
@@ -227,6 +286,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2783f2bc97ab06b49916b3e9457c44e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _streetPrefab: {fileID: 6758718783650931219, guid: b6ac766e82d20e844aab93fab8217362,
+    type: 3}
+  _residentalPrefab: {fileID: 953566854741070521, guid: 83800e9b3b179af41ae076a26dcd3275,
+    type: 3}
+  _officePrefab: {fileID: 953566854741070521, guid: 83800e9b3b179af41ae076a26dcd3275,
+    type: 3}
+  _factroyPrefab: {fileID: 953566854741070521, guid: 83800e9b3b179af41ae076a26dcd3275,
+    type: 3}
+  _hospitalPrefab: {fileID: 953566854741070521, guid: 83800e9b3b179af41ae076a26dcd3275,
+    type: 3}
+  _partyPrefab: {fileID: 953566854741070521, guid: 83800e9b3b179af41ae076a26dcd3275,
+    type: 3}
+  _gastronomyPrefab: {fileID: 953566854741070521, guid: 83800e9b3b179af41ae076a26dcd3275,
+    type: 3}
+  _culturePrefab: {fileID: 953566854741070521, guid: 83800e9b3b179af41ae076a26dcd3275,
+    type: 3}
+  _supermarketPrefab: {fileID: 953566854741070521, guid: 83800e9b3b179af41ae076a26dcd3275,
+    type: 3}
+  _shoppingPrefab: {fileID: 953566854741070521, guid: 83800e9b3b179af41ae076a26dcd3275,
+    type: 3}
 --- !u!1 &4727949105574950413
 GameObject:
   m_ObjectHideFlags: 0
@@ -340,6 +419,55 @@ Transform:
   - {fileID: 4727949105058052814}
   - {fileID: 4727949105574950412}
   - {fileID: 4727949105326329369}
+  - {fileID: 1024834406256262506}
+  - {fileID: 3064245957325449214}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5734244359818576364
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1024834406256262506}
+  - component: {fileID: 2761704647319252333}
+  m_Layer: 0
+  m_Name: WorldController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1024834406256262506
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5734244359818576364}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4727949105844729999}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2761704647319252333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5734244359818576364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7223faab568297740acd134165f539d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _map: {fileID: 0}
+  _streetContainer: {fileID: 0}
+  _locationContainer: {fileID: 0}
+  _distanceFactor: 0

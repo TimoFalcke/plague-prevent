@@ -8,6 +8,7 @@ public enum InfectionStatus { HEALTHY, CARRIER, IMMUNE, SICK, SEVERE, DEAD };
 public enum Profession { WORKER };
 
 public enum NodeType { LOCATION, STREET, INTERIOR }
+
 public enum LocationType 
 { 
     RESIDENTAL, 

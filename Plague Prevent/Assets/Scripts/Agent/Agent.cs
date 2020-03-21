@@ -11,12 +11,13 @@ public class Agent : MonoBehaviour
     int _age;
     Profession _profession;
     InfectionStatus _status;
-    [SerializeField]
     Location _home;
     Location _workplace;
     AgentSchedule schedule;
     AgentMovement _agentMovement;
+    AgentArchetype archetype;
     float _speed;
+    private float _infectivity = 1.0f;
     #endregion
 
     private void Awake()
@@ -27,14 +28,23 @@ public class Agent : MonoBehaviour
         _age = Random.Range(AgentController.Instance.MinAge, AgentController.Instance.MaxAge);
         _profession = (Profession)Random.Range(0, Profession.GetValues(typeof(Profession)).Length);
         _status = InfectionStatus.HEALTHY;
-        //_home = AgentController.Instance.GetHomeLocation();
         _speed = Random.Range(AgentController.Instance.MinSpeed, AgentController.Instance.MaxSpeed);
+    }
 
+
+    public void Initilize(Location home)
+    {
+        archetype = AgentController.Instance.GetArchetype();
+
+        _home = home;
+        _workplace = LocationController.Instance.GetRandomWorkplace();
         _agentMovement = GetComponentInChildren<AgentMovement>();
         _agentMovement.Initilize(_home.Node);
 
+
         schedule = GetComponent<AgentSchedule>();
-        schedule.Initialize(this);
+        schedule.Initialize(this, archetype);
+
     }
 
     #region properties
@@ -49,5 +59,12 @@ public class Agent : MonoBehaviour
     public Location Workplace { get => _workplace; }
     public Origin Origin { get => _origin; }
     public float Speed { get => _speed; }
+
+    public float Infectivity
+    {
+        get => _infectivity;
+        set => _infectivity = value;
+    }
+
     #endregion
 }

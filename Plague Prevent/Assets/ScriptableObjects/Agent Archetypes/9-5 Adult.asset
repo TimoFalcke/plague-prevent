@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e7276982be7d414a850a21907eeb41f, type: 3}
+  m_Name: 9-5 Adult
+  m_EditorClassIdentifier: 
+  description: 'Adult working a 9 to 5 job
+
+'
+  frequency: 2
+  schedule:
+  - activityType: 0
+    time: {x: 0, y: 8}
+  - activityType: 1
+    time: {x: 8, y: 17}
+  - activityType: 2
+    time: {x: 17, y: 22}
+  - activityType: 0
+    time: {x: 22, y: 24}
+  possibleWorkplaces: 010000000200000004000000
+  possibleEntertainments: 

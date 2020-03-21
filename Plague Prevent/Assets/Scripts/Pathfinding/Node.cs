@@ -39,22 +39,69 @@ public class Node : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (_nodeType == NodeType.STREET)
+        if (collision.gameObject.tag == "Node")
         {
-            if (collision.gameObject.tag == "Node")
+            Node otherNode = collision.gameObject.GetComponent<Node>();
+
+            switch (_nodeType)
             {
-                Node otherNode = collision.gameObject.GetComponent<Node>();
-                if (otherNode._nodeType != NodeType.INTERIOR)
-                {
-                    _neighbours.Add(otherNode);
-                    if (!otherNode.Neighbours.Contains(this))
+                case NodeType.STREET:
+
+                    switch (otherNode.Type)
                     {
-                        otherNode.Neighbours.Add(this);
-                        Debug.Log("Neighbour added");
+                        case NodeType.LOCATION:
+                        case NodeType.STREET:
+                        _neighbours.Add(otherNode);
+                         if (!otherNode.Neighbours.Contains(this))
+                         {
+                                otherNode.Neighbours.Add(this);
+                         }
+                       break;
                     }
-                }
+                    break;
+                case NodeType.LOCATION:
+                    switch (otherNode.Type)
+                    {
+                        case NodeType.STREET:
+                            _neighbours.Add(otherNode);
+                            if (!otherNode.Neighbours.Contains(this))
+                            {
+                                otherNode.Neighbours.Add(this);
+                            }
+                            RotateParentToStreet(otherNode);
+                            break;
+                        case NodeType.INTERIOR:
+                            _neighbours.Add(otherNode);
+                            if (!otherNode.Neighbours.Contains(this))
+                            {
+                                otherNode.Neighbours.Add(this);
+                            }
+                            break;
+                    }
+                    break;
+                case NodeType.INTERIOR:
+                    switch (otherNode.Type)
+                    {
+                        case NodeType.LOCATION:
+                        case NodeType.INTERIOR:
+                            _neighbours.Add(otherNode);
+                            if (!otherNode.Neighbours.Contains(this))
+                            {
+                                otherNode.Neighbours.Add(this);
+                            }
+                            break;
+                    }
+                    break;
             }
+
         }
+    }
+
+    private void RotateParentToStreet(Node node)
+    {
+        var dir = node.transform.position - transform.position;
+        var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90;
+        transform.parent.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
     #endregion
 
@@ -66,5 +113,6 @@ public class Node : MonoBehaviour
     public int HCost { get => _hCost;  }
     public int FCost { get => _gCost + _hCost; }
     public Node CurrentParent { get => _currentParent; }
+    public NodeType Type { get => _nodeType;  }
     #endregion
 }

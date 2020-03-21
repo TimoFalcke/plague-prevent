@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e7276982be7d414a850a21907eeb41f, type: 3}
+  m_Name: Night Job
+  m_EditorClassIdentifier: 
+  description: 'Adult working a night job
+
+'
+  frequency: 1
+  schedule:
+  - activityType: 1
+    time: {x: 0, y: 5}
+  - activityType: 0
+    time: {x: 5, y: 15}
+  - activityType: 2
+    time: {x: 15, y: 22}
+  - activityType: 1
+    time: {x: 22, y: 24}
+  possibleWorkplaces: 
+  possibleEntertainments: 

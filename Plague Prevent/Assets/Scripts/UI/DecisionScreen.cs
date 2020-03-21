@@ -59,7 +59,7 @@ public class DecisionScreen : MonoBehaviour
         }
 
         DOTween.To(() => Time.timeScale, x => Time.timeScale = x, 0, timeFreezeDuration).SetUpdate(UpdateType.Normal, true);
-        rectTransform.DOLocalMoveY(fromHeight, moveInDuration).SetEase(moveOutEase).SetUpdate(UpdateType.Normal, true).SetDelay(moveOutDelay);
+        rectTransform.DOLocalMoveY(fromHeight, moveOutDuration).SetEase(moveOutEase).SetUpdate(UpdateType.Normal, true).SetDelay(moveOutDelay);
 
     }
 
