@@ -20,12 +20,10 @@ MonoBehaviour:
   - activityType: 2
     time: {x: 0, y: 2}
   - activityType: 0
-    time: {x: 2, y: 10}
+    time: {x: 2, y: 11}
   - activityType: 1
-    time: {x: 10, y: 16}
-  - activityType: 0
-    time: {x: 16, y: 19}
+    time: {x: 11, y: 20}
   - activityType: 2
-    time: {x: 19, y: 24}
+    time: {x: 20, y: 24}
   possibleWorkplaces: 
   possibleEntertainments: 04000000050000000600000008000000

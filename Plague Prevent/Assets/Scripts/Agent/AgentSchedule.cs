@@ -143,9 +143,9 @@ public class AgentSchedule : MonoBehaviour
         decisionFeedback.transform.localScale = Vector3.one;
         decisionFeedback.DOColor(Color.white, 0.1f);
         decisionFeedback.gameObject.SetActive(true);
-        decisionFeedback.transform.DOLocalMoveY(1.95f, 1f).From(0).SetEase(Ease.InOutSine).OnComplete(
+        decisionFeedback.transform.DOLocalMoveY(2.7f, 1f).From(0).SetEase(Ease.InOutSine).OnComplete(
             () => decisionFeedback.DOColor(Color.clear, 0.5f));
-        decisionFeedback.transform.DOScale(3, 1f);
+        decisionFeedback.transform.DOScale(2, 1f);
 
 
     }
