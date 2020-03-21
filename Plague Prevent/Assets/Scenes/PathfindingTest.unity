@@ -366,6 +366,11 @@ PrefabInstance:
       propertyPath: m_textInfo.pageCount
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2493021106558557172, guid: ed6a9bb2fa11eee4e98c713086d31223,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 705.8001
+      objectReference: {fileID: 0}
     - target: {fileID: 2939692049322525934, guid: ed6a9bb2fa11eee4e98c713086d31223,
         type: 3}
       propertyPath: m_textInfo.characterCount
@@ -405,6 +410,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3052869628332555253, guid: ed6a9bb2fa11eee4e98c713086d31223,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 827.8
       objectReference: {fileID: 0}
     - target: {fileID: 3639903496172731975, guid: ed6a9bb2fa11eee4e98c713086d31223,
         type: 3}
@@ -640,6 +650,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 7787439340988552484, guid: ed6a9bb2fa11eee4e98c713086d31223,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 767.8
       objectReference: {fileID: 0}
     - target: {fileID: 8792154547822159006, guid: ed6a9bb2fa11eee4e98c713086d31223,
         type: 3}

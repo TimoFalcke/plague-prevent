@@ -1,12 +1,16 @@
-﻿using System;
+﻿using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class AgentSchedule : MonoBehaviour
 {
     AgentScheduleElement[] schedule;
     [SerializeField] Transform routineContainer;
+
+    [SerializeField] TextMeshPro decisionFeedback;
 
     Dictionary<AgentActivityType, List<Location>> routines;
 
@@ -119,6 +123,33 @@ public class AgentSchedule : MonoBehaviour
         DecideRoutine();
     }
 
+    void DecisionFeedback()
+    {
+        switch (CurrentScheduleElement.activityType)
+        {
+            case AgentActivityType.FREETIME:
+                decisionFeedback.text = "F";
+                break;
+
+            case AgentActivityType.HOME:
+                decisionFeedback.text = "H";
+                break;
+
+            case AgentActivityType.WORK:
+                decisionFeedback.text = "W";
+                break;
+        }
+
+        decisionFeedback.transform.localScale = Vector3.one;
+        decisionFeedback.DOColor(Color.white, 0.1f);
+        decisionFeedback.gameObject.SetActive(true);
+        decisionFeedback.transform.DOLocalMoveY(1.95f, 1f).From(0).SetEase(Ease.InOutSine).OnComplete(
+            () => decisionFeedback.DOColor(Color.clear, 0.5f));
+        decisionFeedback.transform.DOScale(3, 1f);
+
+
+    }
+
     private void Update()
     {
         //remainingScheduleTime -= Time.deltaTime * StatsController.Instance.hoursPerSecond;
@@ -151,6 +182,7 @@ public class AgentSchedule : MonoBehaviour
 
         //remainingScheduleTime += CurrentScheduleElement.Duration;
         DecideRoutine();
+        DecisionFeedback();
     }
 
     /// <summary>

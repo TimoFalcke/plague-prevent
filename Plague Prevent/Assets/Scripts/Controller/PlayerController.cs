@@ -57,8 +57,8 @@ public class PlayerController : MonoBehaviour
         {
             camMov += HandleMouseMovement(ref borderProximityMultiplier);
         }
-        _camera.transform.Translate(Vector3.Normalize(camMov) * (speed * Time.deltaTime * borderProximityMultiplier));
-        _camera.orthographicSize = Mathf.Clamp(_camera.orthographicSize - Input.GetAxis("Mouse ScrollWheel")* (scrollSpeed*2) * scrollSpeed * Time.deltaTime, MinZoom, MaxZoom) ;
+        _camera.transform.Translate(Vector3.Normalize(camMov) * (speed * Time.unscaledDeltaTime * borderProximityMultiplier));
+        _camera.orthographicSize = Mathf.Clamp(_camera.orthographicSize - Input.GetAxis("Mouse ScrollWheel")* (scrollSpeed*2) * scrollSpeed * Time.unscaledDeltaTime, MinZoom, MaxZoom) ;
 
     }
 
