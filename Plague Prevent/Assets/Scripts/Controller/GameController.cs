@@ -7,6 +7,8 @@ public class GameController : MonoBehaviour
     #region fields
 
     static GameController _instance;
+
+    
     #endregion
 
     #region initilization

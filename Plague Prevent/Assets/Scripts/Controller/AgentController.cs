@@ -10,6 +10,10 @@ public class AgentController : Controller
     int _minAge;
     [SerializeField]
     int _maxAge;
+    [SerializeField]
+    float _minSpeed;
+    [SerializeField]
+    float _maxSpeed;
     #endregion
 
     #region initilization
@@ -41,5 +45,7 @@ public class AgentController : Controller
     public static AgentController Instance { get => _instance; }
     public int MinAge { get => _minAge; }
     public int MaxAge { get => _maxAge;  }
+    public float MinSpeed { get => _minSpeed; }
+    public float MaxSpeed { get => _maxSpeed;}
     #endregion
 }

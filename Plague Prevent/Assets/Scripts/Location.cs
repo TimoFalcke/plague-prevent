@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[SelectionBase]
 public class Location : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    #region fields
+    [SerializeField]
+    Node _node;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [SerializeField]
+    Node[] interiorNodes;
+    #endregion
+
+    #region properties
+    public Node Node { get => _node; }
+    #endregion
 }

@@ -6,6 +6,7 @@ public class UIController : Controller
 {
     #region fields
     private static UIController _instance;
+    [SerializeField] DecisionScreen decisionScreen;
     #endregion
 
     #region initilization
@@ -25,6 +26,16 @@ public class UIController : Controller
 
         return _instance;
     }
+
+    public void ShowRuleScreen(Rule[] rules)
+    {
+        decisionScreen.Display(rules);
+    }
+    public void HideRuleScreen()
+    {
+        decisionScreen.Hide();
+    }
+
     #endregion
 
     #region properties
