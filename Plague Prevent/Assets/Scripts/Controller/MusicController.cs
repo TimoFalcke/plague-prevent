@@ -29,7 +29,6 @@ public class MusicController : MonoBehaviour
     #region initilization
     private void Awake()
     {
-        DontDestroyOnLoad(this.gameObject);
         GetInstance();
         StartMusic();
     }

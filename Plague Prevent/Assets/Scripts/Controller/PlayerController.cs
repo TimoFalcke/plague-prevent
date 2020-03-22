@@ -114,7 +114,7 @@ public class PlayerController : MonoBehaviour
         {
             
         }
-        if (Input.GetMouseButton(1))
+        if (Input.GetMouseButton(1) || Input.GetMouseButton(0))
         {
             Vector3 ret = _camera.ScreenToViewportPoint(Input.mousePosition - _initMousePos);
             _initMousePos = Input.mousePosition;
