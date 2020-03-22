@@ -53,9 +53,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
   m_Name: Roboto-Bold SDF
   m_EditorClassIdentifier: 
-  hashCode: 0
+  hashCode: -635320526
   material: {fileID: 6281440861710897382}
-  materialHashCode: 0
+  materialHashCode: 1454072953
   m_Version: 1.1.0
   m_SourceFontFileGUID: b1ca95e29c818dd4fb48c6efbe1e4820
   m_SourceFontFile_EditorRef: {fileID: 0}

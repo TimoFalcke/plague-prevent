@@ -12,10 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b135f32298d5ab4dae48536f720dba9, type: 3}
   m_Name: HomeOffice
   m_EditorClassIdentifier: 
-  text: 'Empfehlung: Mehr Bewohner sollen Home Office machen.'
-  acceptance: -1
-  cost: 1
-  generalRule: 3
-  locationRule: 0
-  targetLocation: 0
-  value: 1
+  text: Von Zuhause arbeiten
+  decisionType: 0
+  acceptanceTreshold: 30
+  cost: 150
+  uses: 5
+  generalRules:
+  - ruleType: 4
+    value: -0.3
+  - ruleType: 5
+    value: -10
+  locationRules: []

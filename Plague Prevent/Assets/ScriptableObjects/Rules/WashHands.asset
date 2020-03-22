@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b135f32298d5ab4dae48536f720dba9, type: 3}
   m_Name: WashHands
   m_EditorClassIdentifier: 
-  text: "Empfehlung: Alle Bewohner sollen sich h\xE4ufiger die H\xE4nde waschen."
-  acceptance: -1
-  cost: 1
-  generalRule: 1
-  locationRule: 0
-  targetLocation: 0
-  value: 1
+  text: "Gr\xFCndliches H\xE4ndewaschen"
+  decisionType: 0
+  acceptanceTreshold: 0
+  cost: 50
+  uses: 2
+  generalRules:
+  - ruleType: 1
+    value: 0.16
+  locationRules: []

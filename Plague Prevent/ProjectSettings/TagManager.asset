@@ -43,3 +43,6 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Locations
+    uniqueID: 1763426189
+    locked: 0

@@ -8,6 +8,7 @@ public class LocationController : MonoBehaviour
     private static LocationController _instance;
     private static List<Location> _workspaces;
     private static List<Location> _entertainments;
+    private static List<Location> _hospitals;
 
 
     [SerializeField]
@@ -37,6 +38,7 @@ public class LocationController : MonoBehaviour
     {
         _workspaces = new List<Location>();
         _entertainments = new List<Location>();
+        _hospitals = new List<Location>();
         GetInstance();
     }
     #endregion
@@ -59,6 +61,16 @@ public class LocationController : MonoBehaviour
     public void RegisterEntertainment(Location location)
     {
         _entertainments.Add(location);
+    }
+
+    public void RegisterHospital(Location location)
+    {
+        _hospitals.Add(location);
+    }
+
+    public Location GetRandomHospital()
+    {
+        return _hospitals[Random.Range(0, _hospitals.Count)];
     }
 
     public Location GetRandomWorkplace()

@@ -5,7 +5,10 @@ using UnityEngine;
 public class Appartment : Location
 {
     [SerializeField]
-    int _agentCount;
+    int _minAgentCount;
+    [SerializeField]
+    int _maxAgentCount;
+
 
     public void Start()
     {
@@ -14,10 +17,11 @@ public class Appartment : Location
 
     public void SpawnAgents()
     {
-        for (int i = 0; i < _agentCount; i++)
+        for (int i = 0; i < Random.Range(_minAgentCount, _maxAgentCount); i++)
         {
             Agent agent = GameObject.Instantiate(AgentController.Instance.AgentPrefab, this.transform.position, Quaternion.identity, AgentController.Instance.AgentContainer.transform).GetComponent<Agent>();
             agent.Initilize(this);
         }
+        StatsController.Instance.UpdatePopulationCount();
     }
 }

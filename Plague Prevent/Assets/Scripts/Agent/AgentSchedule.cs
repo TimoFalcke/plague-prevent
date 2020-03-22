@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -17,13 +18,15 @@ public class AgentSchedule : MonoBehaviour
     int currentScheduleElementIndex = 0;
     //float remainingScheduleTime;
 
-    private float nextDiseaseTick = 24.0f;
-
     private InfectionStateMachine _infectionStateMachine;
 
     Location targetLocation;
-    int hourForNextSchedule;
+    //int hourForNextSchedule;
     AgentMovement _agentMovement;
+
+    private Agent _agent;
+
+    private Location _hospital;
 
     AgentArchetype archetype;
 
@@ -50,6 +53,8 @@ public class AgentSchedule : MonoBehaviour
         this.archetype = archetype;
         //AgentRoutine[] allRoutines = GetComponentsInChildren<AgentRoutine>();
         _agentMovement = GetComponentInChildren<AgentMovement>();
+        _agent = GetComponent<Agent>();
+        _hospital = LocationController.Instance.GetRandomHospital();
         //_infectionStateMachine = GetComponent<InfectionStateMachine>();
 
         // random routines
@@ -78,7 +83,7 @@ public class AgentSchedule : MonoBehaviour
 
         //Debug.Log($" { archetype } at { StatsController.Instance.currentDateTime.Hour } o'clock: activity = { CurrentScheduleElement.activityType}");
 
-        hourForNextSchedule = CurrentScheduleElement.EndTime;
+        //hourForNextSchedule = CurrentScheduleElement.EndTime;
 
         #region old
         //AgentRoutine homeRoutine = routineContainer.gameObject.AddComponent<AgentRoutine>();
@@ -125,6 +130,10 @@ public class AgentSchedule : MonoBehaviour
 
     void DecisionFeedback()
     {
+        if (_agent.Status == InfectionStatus.SEVERE)
+        {
+            decisionFeedback.text = "X";
+        }
         switch (CurrentScheduleElement.activityType)
         {
             case AgentActivityType.FREETIME:
@@ -137,6 +146,9 @@ public class AgentSchedule : MonoBehaviour
 
             case AgentActivityType.WORK:
                 decisionFeedback.text = "W";
+                break;
+            case AgentActivityType.HOSPITAL:
+                decisionFeedback.text = "X";
                 break;
         }
 
@@ -153,14 +165,7 @@ public class AgentSchedule : MonoBehaviour
     private void Update()
     {
         //remainingScheduleTime -= Time.deltaTime * StatsController.Instance.hoursPerSecond;
-        nextDiseaseTick -= Time.deltaTime * StatsController.Instance.hoursPerSecond;
 
-        if (nextDiseaseTick <= 0)
-        {
-            nextDiseaseTick = 24.0f;
-            _infectionStateMachine.OnTimeStep();
-
-        }
 
         if (!CurrentScheduleElement.LiesInTimeFrame(StatsController.Instance.currentDateTime.Hour))
             NextSchedule();
@@ -176,13 +181,11 @@ public class AgentSchedule : MonoBehaviour
     {
         currentScheduleElementIndex = (currentScheduleElementIndex + 1) % schedule.Length;
 
-        hourForNextSchedule = CurrentScheduleElement.EndTime;
-
         //Debug.Log($" { archetype } at { StatsController.Instance.currentDateTime.Hour } o'clock: activity = { CurrentScheduleElement.activityType}");
 
         //remainingScheduleTime += CurrentScheduleElement.Duration;
         DecideRoutine();
-        DecisionFeedback();
+        // DecisionFeedback();
     }
 
     /// <summary>
@@ -190,8 +193,37 @@ public class AgentSchedule : MonoBehaviour
     /// </summary>
     void DecideRoutine()
     {
-        targetLocation = routines[CurrentScheduleElement.activityType]
-            [UnityEngine.Random.Range(0, routines[CurrentScheduleElement.activityType].Count)];
+        if (_agent.Status == InfectionStatus.SEVERE)
+        {
+            targetLocation = _hospital;
+        }
+        else
+        {
+            targetLocation = routines[CurrentScheduleElement.activityType]
+                [UnityEngine.Random.Range(0, routines[CurrentScheduleElement.activityType].Count)];
+
+            AgentActivityType plannedActivity = CurrentScheduleElement.activityType;
+            if (plannedActivity != AgentActivityType.HOME)
+            {
+                // decide to go home instead
+                float routineProbability = 1;
+
+                switch (plannedActivity)
+                {
+                    case AgentActivityType.WORK: routineProbability *= StatsController.Instance.goToWorkProbabilityGlobal; break;
+                    case AgentActivityType.FREETIME: routineProbability *= StatsController.Instance.goToEntertainmentProbabilityGlobal; break;
+                }
+
+                routineProbability *= StatsController.Instance.visitProbability[targetLocation.LocationType];
+
+                if (UnityEngine.Random.value > routineProbability)
+                {
+                    Debug.Log(this + " decides to go / stay home instead of going to " + targetLocation);
+                    targetLocation = routines[AgentActivityType.HOME][0];
+                }
+            }
+        }
+
 
         OnNewTargetChosen?.Invoke(targetLocation);
         _agentMovement.SetPath(targetLocation.Node);

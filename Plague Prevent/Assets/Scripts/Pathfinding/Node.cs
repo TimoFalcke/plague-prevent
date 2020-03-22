@@ -12,7 +12,7 @@ public class Node : MonoBehaviour
     int _hCost;
     Node _currentParent;
     [SerializeField]
-    NodeType _nodeType;
+    public NodeType _nodeType;
     #endregion
 
     #region methods
@@ -69,6 +69,7 @@ public class Node : MonoBehaviour
                                 otherNode.Neighbours.Add(this);
                             }
                             RotateParentToStreet(otherNode);
+                            
                             break;
                         case NodeType.INTERIOR:
                             _neighbours.Add(otherNode);
@@ -102,6 +103,7 @@ public class Node : MonoBehaviour
         var dir = node.transform.position - transform.position;
         var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90;
         transform.parent.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        this.transform.parent.GetComponent<Location>().Icon.transform.localRotation = Quaternion.AngleAxis(-angle, Vector3.forward);
     }
     #endregion
 

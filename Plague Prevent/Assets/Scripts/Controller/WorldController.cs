@@ -17,7 +17,7 @@ public class WorldController : MonoBehaviour
     Color32 _residentalColor = new Color32(0,138,255,255);
     Color32 _officeColor = new Color32(0, 4, 255, 255);
     Color32 _factoryColor = new Color32(106, 0, 199, 255);
-    Color32 _hospitalColor = new Color32(65, 119, 0, 255);
+    Color32 _hospitalColor = new Color32(63, 119, 0, 255);
     Color32 _garstronmyColor = new Color32(255, 115, 0, 255);
     Color32 _partyColor = new Color32(255, 0, 42, 255);
     Color32 _cultureColor = new Color32(255, 0, 255, 255);

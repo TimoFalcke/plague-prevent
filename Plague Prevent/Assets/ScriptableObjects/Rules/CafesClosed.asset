@@ -12,10 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b135f32298d5ab4dae48536f720dba9, type: 3}
   m_Name: CafesClosed
   m_EditorClassIdentifier: 
-  text: "Gesetz: Cafes d\xFCrfen weniger lange ge\xF6ffnet sein."
-  acceptance: -1
-  cost: 1
-  generalRule: 0
-  locationRule: 1
-  targetLocation: 4
-  value: 0.1
+  text: "Einschr\xE4nken der \xD6ffnungszeiten von Restaurants."
+  decisionType: 1
+  acceptanceTreshold: 10
+  cost: 50
+  uses: 3
+  generalRules:
+  - ruleType: 0
+    value: 0
+  - ruleType: 5
+    value: -10
+  locationRules:
+  - ruleType: 1
+    targetLocation: 4
+    value: -0.3

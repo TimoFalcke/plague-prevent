@@ -8,6 +8,8 @@ using UnityEngine.UI;
 public class RuleEntry : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI ruleText;
+    [SerializeField] TextMeshProUGUI ruleCost;
+    [SerializeField] TextMeshProUGUI decisionType;
     [SerializeField] Button button;
 
     Rule rule;
@@ -16,7 +18,22 @@ public class RuleEntry : MonoBehaviour
     {
         this.rule = rule;
 
-        ruleText.text = rule.text;        
+        if (rule.cost > StatsController.Instance.money)// || rule.acceptanceTreshold > StatsController.Instance.approval)
+            button.interactable = false;
+
+        ruleText.text = rule.text;
+        ruleCost.text = rule.cost.ToString();
+
+        switch (rule.decisionType)
+        {
+            case DecisionType.recommendation:
+                decisionType.text = "Empfehlung";
+                break;
+
+            case DecisionType.law:
+                decisionType.text = "Gesetz";
+                break;
+        }
     }
 
     internal void Disable()
@@ -26,6 +43,7 @@ public class RuleEntry : MonoBehaviour
 
     public void ButtonPressed()
     {
+        RuleManager.Instance.EnactRule(rule);
         UIController.Instance.HideRuleScreen();
         
     }

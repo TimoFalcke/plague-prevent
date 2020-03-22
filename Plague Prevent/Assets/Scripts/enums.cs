@@ -21,20 +21,29 @@ public enum LocationType
     SUPERMARKET,
     SHOPPING
 };
-public enum AgentActivityType { HOME, WORK, FREETIME }
+public enum AgentActivityType { HOME, WORK, FREETIME, HOSPITAL }
 
 
 public enum GeneralRuleType 
 {
-    None,
-    IncreaseWashHandsFrequency,
-    ReduceGoOutsideProbability,
-    ReduceGoToWorkProbability,
+    SpreadVirusProbability,
+    WashHandsProbability,
+    InfectionProbability,
+
+    GoToEntertainmentProbability,
+    GoToWorkProbability,
+
+    Income,
+    Acceptance,
+    
+    DeathRate,
+    HospitalDeathRate,
+    HospitalCapacity
 }
 
 public enum LocationRuleType
 {
     None,
-    ReduceVisitorFrequency,
-    Close
+    VisitorProbability,
+    SpreadVirusProbability
 }

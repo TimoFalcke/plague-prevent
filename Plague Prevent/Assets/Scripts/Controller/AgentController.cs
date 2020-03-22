@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class AgentController : Controller
 {
@@ -22,6 +24,7 @@ public class AgentController : Controller
     [SerializeField]
     AgentArchetype[] archetypes;
 
+    List<Agent> _agents;
     List<AgentArchetype> possibleArchetypes;
     #endregion
 
@@ -29,7 +32,7 @@ public class AgentController : Controller
     private void Awake()
     {
         GetInstance();
-
+        _agents = new List<Agent>();
         possibleArchetypes = new List<AgentArchetype>();
         foreach (AgentArchetype archetype in archetypes)
         {
@@ -37,6 +40,7 @@ public class AgentController : Controller
                 possibleArchetypes.Add(archetype);
         }
     }
+
     #endregion
 
     #region methods
@@ -48,6 +52,11 @@ public class AgentController : Controller
         }
 
         return _instance;
+    }
+
+    public void InfectRandom()
+    {
+        _agents[Random.Range(0, _agents.Count)].Infect();
     }
 
     public Location GetHomeLocation()
@@ -62,6 +71,16 @@ public class AgentController : Controller
         return possibleArchetypes[Random.Range(0, possibleArchetypes.Count)];
     }
 
+    public int RegisterAgent(Agent agent)
+    {
+        _agents.Add(agent);
+        return (_agents.Count - 1);
+    }
+    public void UnregisterAgent(Agent agent)
+    {
+        _agents.Remove(agent);
+    }
+
     #endregion
 
     #region properties
@@ -72,5 +91,6 @@ public class AgentController : Controller
     public float MaxSpeed { get => _maxSpeed;}
     public GameObject AgentPrefab { get => _agentPrefab; }
     public GameObject AgentContainer { get => _agentContainer; }
+    public List<Agent> Agents { get => _agents;  }
     #endregion
 }
